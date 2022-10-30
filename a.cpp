@@ -146,7 +146,6 @@ void solve() {
         rep(dir,4) {
             State now_state = state.move(dir);
             int now_score = now_state.get_score();
-            // cerr << "#" << i << ": dir = " << ds[dir] << ", score = " << now_score << endl;
             if (now_score > best_score) {
                 best_state = now_state;
                 best_score = now_score;
