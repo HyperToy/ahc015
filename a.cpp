@@ -31,11 +31,15 @@ struct State {
     vector<int> f;
     vector<vector<int>> box;
 
-    State (int L, vector<int> f) : f(f), L(L), N(L * L) {
+    State (int L, vector<int> f) 
+        : f(f), L(L), N(L * L)
+    {
         next = 0;
         box = vector(N, vector<int>(N, 0));
     }
-    State (int L, vector<int> f, int next, vector<vector<int>> box): L(L), N(L * L), f(f),next(next), box(box) {}
+    State (int L, vector<int> f, int next, vector<vector<int>> box)
+        : L(L), N(L * L), f(f),next(next), box(box)
+    {}
 
     void put(int p) {
         int cnt = 0;
@@ -47,8 +51,10 @@ struct State {
         }
         next++;
     }
+    
     State move(int dir) {
         vector new_box(L, vector<int>(L, 0));
+ 
         if (dx[dir] != 0) {
             rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
             rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
@@ -57,34 +63,23 @@ struct State {
             if (dx[dir] + dy[dir] > 0) { // R
                 rep(x,L/2) swap(box[i][x], box[i][L - 1 - x]);
                 rep(x,L/2) swap(new_box[i][x], new_box[i][L - 1 - x]);
-                int pos = 0;
-                rep(j,L) {
-                    if (box[i][j] == 0) continue;
-                    new_box[i][pos] = box[i][j];
-                    pos++;
-                }
+            }
+            int pos = 0;
+            rep(j,L) {
+                if (box[i][j] == 0) continue;
+                new_box[i][pos] = box[i][j];
+                pos++;
+            }
+            if (dx[dir] + dy[dir] > 0) { // R
                 rep(x,L/2) swap(new_box[i][x], new_box[i][L - 1 - x]);
                 rep(x,L/2) swap(box[i][x], box[i][L - 1 - x]);
-                
-                // int pos = L - 1;
-                // per(j,L) {
-                //     if (box[i][j] == 0) continue;
-                //     new_box[i][pos] = box[i][j];
-                //     pos--;
-                // }
-            } else { // L
-                int pos = 0;
-                rep(j,L) {
-                    if (box[i][j] == 0) continue;
-                    new_box[i][pos] = box[i][j];
-                    pos++;
-                }
             }
         }
         if (dx[dir] != 0) {
             rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
             rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
         }
+ 
         return State{L, f, next, new_box};
     }
     int get_score() {
