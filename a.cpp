@@ -49,6 +49,9 @@ struct State {
     }
     State move(int dir) {
         vector new_box(L, vector<int>(L, 0));
+        if (dx[dir] != 0) {
+            
+        }
         if (dx[dir] == 0) { // R, L
             rep(i,L) {
                 if (dy[dir] > 0) { // R
@@ -68,23 +71,27 @@ struct State {
                 }
             }
         } else { // F, B
-            rep(j,L) {
+            rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
+            rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
+            rep(i,L) {
                 if (dx[dir] > 0) { // B
                     int pos = L - 1;
-                    per(i,L) {
+                    per(j,L) {
                         if (box[i][j] == 0) continue;
-                        new_box[pos][j] = box[i][j];
+                        new_box[i][pos] = box[i][j];
                         pos--;
                     }
                 } else { // F
                     int pos = 0;
-                    rep(i,L) {
+                    rep(j,L) {
                         if (box[i][j] == 0) continue;
-                        new_box[pos][j] = box[i][j];
+                        new_box[i][pos] = box[i][j];
                         pos++;
                     }
                 }
-            } 
+            }
+            rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
+            rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
         }
         return State{L, f, next, new_box};
     }
@@ -143,7 +150,7 @@ void solve() {
         int best_score = -1;
         State best_state{L, f};
 
-        rep(dir,4) {
+        rep(dir,2) {
             State now_state = state.move(dir);
             int now_score = now_state.get_score();
             if (now_score > best_score) {
