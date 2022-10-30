@@ -132,12 +132,12 @@ void solve() {
         int p;
         cin >> p;
         state.put(p);
-
+/*
         int best_dir = -1;
         int best_score = -1;
         State best_state{L, f};
 
-        rep(dir,2) {
+        rep(dir,4) {
             State now_state = state.move(dir);
             int now_score = now_state.get_score();
             if (now_score > best_score) {
@@ -146,9 +146,52 @@ void solve() {
                 best_dir = dir;
             }
         }
-        state = best_state;
+        state = state.move(best_dir);
         score = best_score;
         // int best_dir = dist(engine);
+        cout << ds[best_dir] << endl;
+*/
+        vector<ll> predict_score(4, 0);
+        double time_limit = 0.03 * (1.0 - i / 100.0);
+        // cerr << i << " : " << time_limit << endl;
+        timer.reset();
+        int loop = 0;
+        while (timer.get() < time_limit) {
+            loop++;
+            vector<int> random_pattern(N);
+            for(int j = i + 1; j < min(N, i + 2); j++) random_pattern[j] = (dist(engine) - 1) % (100 - j) + 1;
+            rep(dir,4) {
+                State simu_state = state.move(dir);
+                for (int j = i + 1; j < min(N, i + 2); j++) {
+                    simu_state.put(random_pattern[j]);
+                    int simu_best_dir = -1;
+                    int simu_best_score = -1;
+                    rep(simu_dir,4) {
+                        State simu_now_state = simu_state.move(simu_dir);
+                        int simu_now_score = simu_now_state.get_score();
+                        if (simu_now_score > simu_best_score) {
+                            simu_best_score = simu_now_score;
+                            simu_best_dir = simu_dir;
+                        }
+                    }
+                    simu_state = simu_state.move(simu_best_dir);
+                }
+                predict_score[dir] += simu_state.get_score();
+            }
+        }
+
+        cerr << i << " " << loop << endl;
+
+        int best_dir = -1;
+        ll best_score = -1;
+        rep(dir, 4) {
+            if (predict_score[dir] > best_score) {
+                best_score = predict_score[dir];
+                best_dir = dir;
+            }
+        }
+        state = state.move(best_dir);
+        score = predict_score[best_dir];
         cout << ds[best_dir] << endl;
     }
 
