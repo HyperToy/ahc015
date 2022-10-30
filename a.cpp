@@ -50,7 +50,8 @@ struct State {
     State move(int dir) {
         vector new_box(L, vector<int>(L, 0));
         if (dx[dir] != 0) {
-            
+            rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
+            rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
         }
         if (dx[dir] == 0) { // R, L
             rep(i,L) {
@@ -71,8 +72,6 @@ struct State {
                 }
             }
         } else { // F, B
-            rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
-            rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
             rep(i,L) {
                 if (dx[dir] > 0) { // B
                     int pos = L - 1;
@@ -90,6 +89,8 @@ struct State {
                     }
                 }
             }
+        }
+        if (dx[dir] != 0) {
             rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
             rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
         }

@@ -5,7 +5,7 @@ do
     echo $i
     ./a < tools/in/$i.txt > tools/out/$i.txt
     cd ./tools
-    echo $i >> scores.txt
+    # echo $i >> scores.txt
     cargo run --release --bin vis in/$i.txt out/$i.txt >> scores.txt
     mv vis.html vis/$i.html
     cd ../
