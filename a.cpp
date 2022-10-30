@@ -6,7 +6,7 @@ using ll = long long;
 
 random_device seed_gen;
 mt19937 engine{seed_gen()};
-uniform_int_distribution<> dist{0, 3};
+uniform_int_distribution<> dist{1, 1000000000};
 
 const double TIME_LIMIT = 1.9;
 struct Timer {
@@ -53,40 +53,31 @@ struct State {
             rep(i,L) rep(j,i) swap(new_box[i][j], new_box[j][i]);
             rep(i,L) rep(j,i) swap(box[i][j], box[j][i]);
         }
-        if (dx[dir] == 0) { // R, L
-            rep(i,L) {
-                if (dy[dir] > 0) { // R
-                    int pos = L - 1;
-                    per(j,L) {
-                        if (box[i][j] == 0) continue;
-                        new_box[i][pos] = box[i][j];
-                        pos--;
-                    }
-                } else { // L
-                    int pos = 0;
-                    rep(j,L) {
-                        if (box[i][j] == 0) continue;
-                        new_box[i][pos] = box[i][j];
-                        pos++;
-                    }
+        rep(i,L) {
+            if (dx[dir] + dy[dir] > 0) { // R
+                rep(x,L/2) swap(box[i][x], box[i][L - 1 - x]);
+                rep(x,L/2) swap(new_box[i][x], new_box[i][L - 1 - x]);
+                int pos = 0;
+                rep(j,L) {
+                    if (box[i][j] == 0) continue;
+                    new_box[i][pos] = box[i][j];
+                    pos++;
                 }
-            }
-        } else { // F, B
-            rep(i,L) {
-                if (dx[dir] > 0) { // B
-                    int pos = L - 1;
-                    per(j,L) {
-                        if (box[i][j] == 0) continue;
-                        new_box[i][pos] = box[i][j];
-                        pos--;
-                    }
-                } else { // F
-                    int pos = 0;
-                    rep(j,L) {
-                        if (box[i][j] == 0) continue;
-                        new_box[i][pos] = box[i][j];
-                        pos++;
-                    }
+                rep(x,L/2) swap(new_box[i][x], new_box[i][L - 1 - x]);
+                rep(x,L/2) swap(box[i][x], box[i][L - 1 - x]);
+                
+                // int pos = L - 1;
+                // per(j,L) {
+                //     if (box[i][j] == 0) continue;
+                //     new_box[i][pos] = box[i][j];
+                //     pos--;
+                // }
+            } else { // L
+                int pos = 0;
+                rep(j,L) {
+                    if (box[i][j] == 0) continue;
+                    new_box[i][pos] = box[i][j];
+                    pos++;
                 }
             }
         }
