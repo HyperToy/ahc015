@@ -16,6 +16,10 @@
     "accessibility.signals.diffLineModified": {
         "sound": "off"
     },
+    "accessibility.signals.lineHasFoldedArea": {
+        "sound": "off",
+        "announcement": "auto"
+    },
     "cSpell.words": [
         "rngs",
         "proconio",
