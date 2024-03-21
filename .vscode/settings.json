@@ -21,10 +21,13 @@
         "announcement": "auto"
     },
     "cSpell.words": [
-        "rngs",
-        "proconio",
+        "Deque",
+        "itertools",
+        "montecarlo",
         "nanos",
-        "Seedable",
-        "itertools"
+        "playout",
+        "proconio",
+        "rngs",
+        "Seedable"
     ],
 }

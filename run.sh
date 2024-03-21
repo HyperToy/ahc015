@@ -27,6 +27,7 @@ fi
 for i in `seq -f '%04g' 0 $loop_stop`
 do
     echo $i
+    # RUST_BACKTRACE=1 \
     ../target/release/ahc015 < in/$i.txt > out/$i.txt
     ./target/release/vis in/$i.txt out/$i.txt >> score.txt && mv vis.html vis/$i.html
 done
