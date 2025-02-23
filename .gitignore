@@ -1,9 +1,7 @@
 /target
 *.zip
-.DS_Store
 sample.cpp
 
-tools/target
-tools/in
-tools/out
-tools/vis
+[a-z]
+.DS_Store
+tools
